@@ -1,0 +1,9 @@
+---
+- name: Prepare
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: Install OpenSSH
+      ansible.builtin.apt:
+        name: openssh-server
+        update_cache: true

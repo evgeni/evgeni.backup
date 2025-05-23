@@ -1,0 +1,3 @@
+---
+backup_folder: /srv/backup
+backup_clients: []

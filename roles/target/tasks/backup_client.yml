@@ -1,0 +1,25 @@
+---
+- name: Create user backup-{{ backup_client }}
+  ansible.builtint.user:
+    name: "backup-{{ backup_client }}"
+    state: present
+    groups: sftponly
+    createhome: false
+    home: "{{ backup_folder }}/{{ backup_client }}"
+    shell: /bin/false
+
+- name: Create home
+  ansible.builtin.file:
+    name: "{{ backup_folder }}/{{ backup_client }}"
+    owner: root
+    group: root
+    state: directory
+    mode: '0755'
+
+- name: Create writable backup dir
+  ansible.builtin.file:
+    name: "{{ backup_folder }}/{{ backup_client }}/backup"
+    owner: "backup-{{ backup_client }}"
+    group: "backup-{{ backup_client }}"
+    state: directory
+    mode: '0750'

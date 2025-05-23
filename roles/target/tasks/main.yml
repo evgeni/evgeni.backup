@@ -1,0 +1,49 @@
+---
+- name: Create sftponly group
+  ansible.builtin.group:
+    name: sftponly
+    state: present
+
+- name: Create backup folder
+  ansible.builtin.file:
+    name: "{{ backup_folder }}"
+    state: directory
+    mode: '0755'
+
+- name: Mark backup folder with a CACHEDIR.TAG
+  ansible.builtin.copy:
+    dest: "{{ backup_folder }}/CACHEDIR.TAG"
+    content: "Signature: 8a477f597d28d172789f06886806bc55"
+    mode: '644'
+
+- name: Create /etc/ssh/authorized_keys folder
+  ansible.builtin.file:
+    name: /etc/ssh/authorized_keys
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
+- name: Configure sftponly sshd group
+  ansible.builtin.blockinfile:
+    block: |
+      Match Group sftponly
+          AllowTcpForwarding no
+          AllowStreamLocalForwarding no
+          AuthenticationMethods publickey
+          AuthorizedKeysFile /etc/ssh/authorized_keys/%u
+          ChrootDirectory %h
+          ForceCommand internal-sftp
+          GatewayPorts no
+          PermitTTY no
+          PermitTunnel no
+          X11Forwarding no
+    marker: "# {mark} ANSIBLE MANAGED BLOCK for sftponly users"
+    dest: /etc/ssh/sshd_config
+  notify: Restart sshd
+
+- name: Create {{ backup_client }}
+  ansible.builtin.include_tasks: backup_client.yml
+  loop: "{{ backup_clients }}"
+  loop_control:
+    loop_var: backup_client
