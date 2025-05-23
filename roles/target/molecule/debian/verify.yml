@@ -1,0 +1,14 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Get /etc/ssh/sshd_config
+      ansible.builtin.slurp:
+        path: /etc/ssh/sshd_config
+      register: __backup_sshd_config
+
+    - name: Check sftponly match exists
+      ansible.builtin.assert:
+        that:
+          - "'sftponly' in __backup_sshd_config['content'] | b64decode"
