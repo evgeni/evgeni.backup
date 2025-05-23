@@ -1,0 +1,14 @@
+---
+namespace: evgeni
+name: backup
+version: 1.0.0
+readme: README.md
+authors:
+- Evgeni Golov <evgeni@golov.de>
+description: perform backups and configure backup storage
+license_file: LICENSE
+tags: []
+dependencies: {}
+repository: https://github.com/evgeni/evgeni.backup
+issues: https://github.com/evgeni/evgeni.backup/issues
+build_ignore: []
