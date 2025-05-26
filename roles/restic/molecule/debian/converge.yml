@@ -1,0 +1,13 @@
+---
+- name: Converge
+  hosts: all
+  gather_facts: true
+  roles:
+    - role: evgeni.backup.restic
+      vars:
+        backup_configs:
+          - name: example
+            repository: sftp://user@backup.example.com/restic
+            password: super_secret
+            folders:
+              - /

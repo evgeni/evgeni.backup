@@ -1,0 +1,9 @@
+---
+backup_restic_binary: restic
+backup_configs: []
+backup_commands_pre_default: []
+backup_commands_default:
+  - "{{ backup_restic_binary }} backup $GLOBAL_FLAGS $BACKUP_FLAGS"
+backup_commands_post_default: []
+backup_forget_commands_default:
+  - "{{ backup_restic_binary }} forget $GLOBAL_FLAGS $FORGET_FLAGS"

@@ -1,0 +1,17 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Fetch /etc/restic/example.env
+      ansible.builtin.slurp:
+        src: /etc/restic/example.env
+      register: __backup_config_file
+
+    - name: Assert env contents
+      ansible.builtin.assert:
+        that:
+          - "'backup.example.com' in __backup_config"
+          - "'prune' in __backup_config"
+      vars:
+        __backup_config: "{{ __backup_config_file['content'] | b64decode }}"
