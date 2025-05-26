@@ -1,0 +1,4 @@
+[Service]
+{% for command in backup_forget_commands -%}
+ExecStart={{ command }}
+{% endfor %}

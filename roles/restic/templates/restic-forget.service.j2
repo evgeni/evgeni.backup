@@ -1,0 +1,9 @@
+[Unit]
+Description=Restic forget on %I
+After=network-online.target
+
+[Service]
+User=restic
+Group=restic
+Type=oneshot
+EnvironmentFile=/etc/restic/%I.env

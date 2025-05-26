@@ -1,0 +1,65 @@
+---
+- name: Install restic
+  ansible.builtin.package:
+    name: restic
+
+- name: Create restic group
+  ansible.builtin.group:
+    name: restic
+    system: true
+
+- name: Create restic user
+  ansible.builtin.user:
+    name: restic
+    group: restic
+    create_home: true
+    home: /var/lib/restic
+    generate_ssh_key: true
+    system: true
+
+- name: Create /etc/restic
+  ansible.builtin.file:
+    name: /etc/restic
+    state: directory
+    owner: restic
+    group: restic
+    mode: '0750'
+
+- name: Create restic-backup@.service
+  ansible.builtin.template:
+    src: templates/restic-backup.service.j2
+    dest: /etc/systemd/system/restic-backup@.service
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Create restic-backup@.timer
+  ansible.builtin.template:
+    src: templates/restic-backup.timer.j2
+    dest: /etc/systemd/system/restic-backup@.timer
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Create restic-forget@.service
+  ansible.builtin.template:
+    src: templates/restic-forget.service.j2
+    dest: /etc/systemd/system/restic-forget@.service
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Create restic-forget@.timer
+  ansible.builtin.template:
+    src: templates/restic-forget.timer.j2
+    dest: /etc/systemd/system/restic-forget@.timer
+    owner: root
+    group: root
+    mode: '0644'
+
+- name: Create backup configs
+  ansible.builtin.include_tasks: backup_config.yml
+  loop: "{{ backup_configs }}"
+  loop_control:
+    loop_var: backup_config
+  no_log: true

@@ -1,0 +1,5 @@
+[Service]
+{% for command in backup_commands -%}
+ExecStart={{ command }}
+{% endfor %}
+AmbientCapabilities=CAP_DAC_READ_SEARCH

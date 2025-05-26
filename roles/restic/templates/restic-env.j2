@@ -1,0 +1,5 @@
+RESTIC_REPOSITORY={{ backup_config.repository }}
+RESTIC_PASSWORD={{ backup_config.password }}
+GLOBAL_FLAGS={{ backup_config.flags | default('') }}
+BACKUP_FLAGS={{ backup_config.backup_flags | default('--exclude-caches --one-file-system') }} {{ backup_config.folders | join(' ') }}
+FORGET_FLAGS={{ backup_config.forget_flags | default('--keep-daily 14 --keep-weekly 4 --prune') }}
