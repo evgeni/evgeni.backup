@@ -59,9 +59,7 @@ jobs:
       - name: Install dependencies
         run: pip install molecule molecule-plugins pytest pytest-ansible pytest-xdist
       - name: Run tests
-        run: pytest -vv --numprocesses 4 --molecule roles/
-        env:
-          MOLECULE_OPTS: --parallel
+        run: pytest -vv --molecule roles/
 
   ansible-lint:
     runs-on: ubuntu-latest
