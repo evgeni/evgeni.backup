@@ -3,9 +3,9 @@
   hosts: all
   gather_facts: false
   tasks:
-    - name: Get /etc/ssh/sshd_config
+    - name: Get /etc/ssh/sshd_config.d/sftponly.conf
       ansible.builtin.slurp:
-        path: /etc/ssh/sshd_config
+        path: /etc/ssh/sshd_config.d/sftponly.conf
       register: __backup_sshd_config
 
     - name: Check sftponly match exists
