@@ -25,8 +25,12 @@
     mode: '0755'
 
 - name: Configure sftponly sshd group
-  ansible.builtin.blockinfile:
-    block: |
+  ansible.builtin.copy:
+    dest: /etc/ssh/sshd_config.d/sftponly.conf
+    owner: root
+    group: root
+    mode: '0644'
+    content: |
       Match Group sftponly
           AllowTcpForwarding no
           AllowStreamLocalForwarding no
@@ -38,8 +42,6 @@
           PermitTTY no
           PermitTunnel no
           X11Forwarding no
-    marker: "# {mark} ANSIBLE MANAGED BLOCK for sftponly users"
-    dest: /etc/ssh/sshd_config
   notify: Restart sshd
 
 - name: Create {{ backup_client }}
