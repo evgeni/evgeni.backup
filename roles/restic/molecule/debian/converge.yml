@@ -5,6 +5,7 @@
   roles:
     - role: evgeni.backup.restic
       vars:
+        backup_enable_prometheus: false
         backup_configs:
           - name: example
             repository: sftp://user@backup.example.com/restic

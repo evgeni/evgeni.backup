@@ -1,0 +1,1 @@
+roles/restic/files/restic-prometheus-exporter.py shebang
