@@ -11,3 +11,5 @@
             password: super_secret
             folders:
               - /
+            env:
+              FUNNY: content
