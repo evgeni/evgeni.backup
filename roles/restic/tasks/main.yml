@@ -3,6 +3,26 @@
   ansible.builtin.package:
     name: restic
 
+- name: Install restic-prometheus-exporter
+  ansible.builtin.copy:
+    src: files/restic-prometheus-exporter.py
+    dest: /usr/local/bin/restic-prometheus-exporter
+    owner: root
+    group: root
+    mode: '0755'
+  when:
+    - backup_enable_prometheus
+
+- name: Ensure /var/lib/prometheus/node-exporter is writable
+  ansible.builtin.file:
+    name: /var/lib/prometheus/node-exporter
+    state: directory
+    owner: prometheus
+    group: prometheus
+    mode: '0775'
+  when:
+    - backup_enable_prometheus
+
 - name: Create restic group
   ansible.builtin.group:
     name: restic
@@ -16,6 +36,7 @@
     home: /var/lib/restic
     generate_ssh_key: true
     system: true
+    groups: "{{ backup_enable_prometheus | ansible.builtin.ternary(['prometheus'], []) }}"
 
 - name: Create /etc/restic
   ansible.builtin.file:

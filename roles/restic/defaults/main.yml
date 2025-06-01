@@ -7,3 +7,4 @@ backup_commands_default:
 backup_commands_post_default: []
 backup_forget_commands_default:
   - "{{ backup_restic_binary }} forget $GLOBAL_FLAGS $FORGET_FLAGS"
+backup_enable_prometheus: true
