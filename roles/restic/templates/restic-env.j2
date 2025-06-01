@@ -1,5 +1,10 @@
 RESTIC_REPOSITORY={{ backup_config.repository }}
+{% if backup_config.password is defined %}
 RESTIC_PASSWORD={{ backup_config.password }}
+{% endif %}
+{% if backup_config.password_file is defined %}
+RESTIC_PASSWORD_FILE={{ backup_config.password_file }}
+{% endif %}
 GLOBAL_FLAGS={{ backup_config.flags | default('') }}
 BACKUP_FLAGS={{ backup_config.backup_flags | default('--exclude-caches --one-file-system') }} {{ backup_config.folders | join(' ') }}
 FORGET_FLAGS={{ backup_config.forget_flags | default('--keep-daily 14 --keep-weekly 4 --prune') }}
